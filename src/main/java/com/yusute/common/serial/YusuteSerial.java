@@ -10,13 +10,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.objenesis.Objenesis;
 import org.objenesis.ObjenesisStd;
 
-public final class Serialization {
+public final class YusuteSerial {
 
     private static Map<Class<?>, Schema<?>> cachedSchema = new ConcurrentHashMap<Class<?>, Schema<?>>();
 
     private static Objenesis objenesis = new ObjenesisStd(true);
 
-    private Serialization() {
+    private YusuteSerial() {
     }
 
     /**
