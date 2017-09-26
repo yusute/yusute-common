@@ -36,16 +36,6 @@ public class YusuteRSA {
     public static final String SIGNATURE_ALGORITHM = "MD5withRSA";
 
     /**
-     * 获取公钥的key
-     */
-    private static final String PUBLIC_KEY = "RSAPublicKey";
-
-    /**
-     * 获取私钥的key
-     */
-    private static final String PRIVATE_KEY = "RSAPrivateKey";
-
-    /**
      * RSA最大加密明文大小
      */
     private static final int MAX_ENCRYPT_BLOCK = 117;
@@ -58,16 +48,13 @@ public class YusuteRSA {
     /**
      * <p> 生成密钥对(公钥和私钥) </p>
      */
-    public static Map<String, Object> genKeyPair() throws Exception {
+    public static RSAKeyPair genKeyPair() throws Exception {
         KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(KEY_ALGORITHM);
         keyPairGen.initialize(KEY_PAIR_SIZE);
         KeyPair keyPair = keyPairGen.generateKeyPair();
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
         RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
-        Map<String, Object> keyMap = new HashMap<String, Object>(2);
-        keyMap.put(PUBLIC_KEY, publicKey);
-        keyMap.put(PRIVATE_KEY, privateKey);
-        return keyMap;
+        return new RSAKeyPair(publicKey, privateKey);
     }
 
     /**
@@ -213,11 +200,11 @@ public class YusuteRSA {
     /**
      * <p> 获取私钥 </p>
      *
-     * @param keyMap 密钥对
+     * @param keyPair 密钥对
      */
-    public static String getPrivateKey(Map<String, Object> keyMap)
+    public static String getPrivateKey(RSAKeyPair keyPair)
         throws Exception {
-        Key key = (Key) keyMap.get(PRIVATE_KEY);
+        Key key = keyPair.getPrivateKey();
         byte[] encode = YusuteBase64.encode(key.getEncoded());
         return StringUtils.newStringUtf8(encode);
     }
@@ -225,11 +212,11 @@ public class YusuteRSA {
     /**
      * <p> 获取公钥 </p>
      *
-     * @param keyMap 密钥对
+     * @param keyPair 密钥对
      */
-    public static String getPublicKey(Map<String, Object> keyMap)
+    public static String getPublicKey(RSAKeyPair keyPair)
         throws Exception {
-        Key key = (Key) keyMap.get(PUBLIC_KEY);
+        Key key = keyPair.getPublicKey();
         byte[] encode = YusuteBase64.encode(key.getEncoded());
         return StringUtils.newStringUtf8(encode);
     }
