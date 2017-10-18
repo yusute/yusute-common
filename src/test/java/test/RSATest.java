@@ -1,5 +1,6 @@
 package test;
 
+import com.yusute.common.codec.rsa.RSAKeyPair;
 import com.yusute.common.codec.rsa.YusuteRSA;
 import java.util.Map;
 
@@ -12,9 +13,9 @@ public class RSATest {
 
     static {
         try {
-            Map<String, Object> keyMap = YusuteRSA.genKeyPair();
-            publicKey = YusuteRSA.getPublicKey(keyMap);
-            privateKey = YusuteRSA.getPrivateKey(keyMap);
+            RSAKeyPair rsaKeyPair = YusuteRSA.genKeyPair();
+            publicKey = YusuteRSA.getPublicKey(rsaKeyPair);
+            privateKey = YusuteRSA.getPrivateKey(rsaKeyPair);
             //System.err.println("公钥: \n\r" + publicKey);
             //System.err.println("私钥： \n\r" + privateKey);
         } catch (Exception e) {
@@ -24,8 +25,8 @@ public class RSATest {
 
     public static void main(String[] args) throws Exception {
         //test();
-        //testSign();
-        testHttpSign();
+        testSign();
+        //testHttpSign();
     }
 
     static void test() throws Exception {
